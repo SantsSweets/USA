@@ -8,7 +8,7 @@ import csv
 import os
 
 class USA(QMainWindow, Ui_StrongestSoldier):
-    def __init__(self):
+    def __init__(self) -> None:
         """initializes the widget since this imports the baby eagle ui
         it then disables the back to menu button as long as hiding is
         until the vote button is pressed"""
@@ -34,7 +34,7 @@ class USA(QMainWindow, Ui_StrongestSoldier):
         self.VoteWidget.lower()
         self.BTMButton.clicked.connect(self.ReturnToMenu)
 
-    def votecheck(self):
+    def votecheck(self) -> str:
         """This vote check function just goes and sees which radiobutton
         was selected when the submit button was pressed, if no candidate
         was selected it will simply return none and ask the user to select a candidate"""
@@ -46,9 +46,9 @@ class USA(QMainWindow, Ui_StrongestSoldier):
             return 'Jane'
         elif self.buttonGroup.checkedButton() is None:
             self.Text.setText("Select a candidate")
-            return None
+            return ''
 
-    def DisplayResults(self):
+    def DisplayResults(self) -> None:
         """the display results function pulls counts, which is a dictionary
         of the candidates and the votes that the candidates have by scanning the csv file
         it then hides the other buttons like the vote button and the results button
@@ -112,7 +112,7 @@ class USA(QMainWindow, Ui_StrongestSoldier):
         self.VoteWidget.setLayout(chartlayout)
         self.VoteWidget.show()
         self.VoteWidget.raise_()
-    def ReturnToMenu(self):
+    def ReturnToMenu(self) -> None:
         """this return to menu function is tied to the back to menu push button
         when pressed, the function disables all of the display results buttons and widgets,
         this allows it to essentially go back to how the application was when initalized"""
@@ -134,7 +134,7 @@ class USA(QMainWindow, Ui_StrongestSoldier):
             self.buttonGroup.checkedButton().setChecked(False)
             self.buttonGroup.setExclusive(True)
 
-    def votecount(self):
+    def votecount(self) -> dict:
         """this vote count function sets up a library that stores the candidates and their votes
         it then goes through the Results.csv and goes through every line and checks for row[2] to who the
         candidate was, and if that candidate is in the votestallied library, it then adds 1 to the candidates total
@@ -148,7 +148,7 @@ class USA(QMainWindow, Ui_StrongestSoldier):
                     votestallied[candidate] += 1
         return votestallied
 
-    def namecheck(self):
+    def namecheck(self) -> str:
         """the namecheck function gets the users name from the U line edit
         it then strips it of whitespace and lowercases the name in case of case sensitive
         scenarios. it then goes through a first if statement which checks to make sure the name
@@ -160,7 +160,7 @@ class USA(QMainWindow, Ui_StrongestSoldier):
         username = self.U.text().strip().lower()
         if username == '':
             self.Text.setText("Please enter a name")
-            return None
+            return ''
         if not os.path.isfile("Results.csv"):
             return username
         with open ('Results.csv', 'r', newline='') as readfile:
@@ -168,10 +168,10 @@ class USA(QMainWindow, Ui_StrongestSoldier):
             for row in reader:
                 if row[0] == username:
                     self.Text.setText("You have already voted")
-                    return None
+                    return ''
         return username
 
-    def Submit(self):
+    def Submit(self) -> None:
         """this pulls the users name and the candidate choice the user made when the vote button is clicked then
         and if statement checks to see if we got None from the name check function, the program doesnt proceed
         it then does the same to the candidate check, if we get a None from candidate then the program also stops
@@ -181,10 +181,10 @@ class USA(QMainWindow, Ui_StrongestSoldier):
         tells the user who they voted for and unselects the radio buttons, and clears the line edit
         """
         name = self.namecheck()
-        if name is None:
+        if name == '':
             return
         candidate = self.votecheck()
-        if candidate is None:
+        if candidate == '':
             return
         file_exists = os.path.isfile("Results.csv")
         with open ('Results.csv', 'a', newline='') as csvfile:
