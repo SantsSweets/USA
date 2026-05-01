@@ -127,6 +127,12 @@ class USA(QMainWindow, Ui_StrongestSoldier):
         self.John.show()
         self.Jane.show()
         self.Agatha.show()
+        self.U.clear()
+        self.text.clear()
+        if self.buttonGroup.checkedButton() is not None:
+            self.buttonGroup.setExclusive(False)
+            self.buttonGroup.checkedButton().setChecked(False)
+            self.buttonGroup.setExclusive(True)
 
     def votecount(self):
         """this vote count function sets up a library that stores the candidates and their votes
