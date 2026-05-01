@@ -37,15 +37,14 @@ class USA(QMainWindow, Ui_StrongestSoldier):
     def votecheck(self) -> str:
         """This vote check function just goes and sees which radiobutton
         was selected when the submit button was pressed, if no candidate
-        was selected it will simply return none and ask the user to select a candidate"""
+        was selected it will simply return '' and ask the user to select a candidate"""
         if self.Agatha.isChecked():
             return 'Agatha'
         elif self.John.isChecked():
             return 'John'
         elif self.Jane.isChecked():
             return 'Jane'
-        elif self.buttonGroup.checkedButton() is None:
-            self.Text.setText("Select a candidate")
+        else:
             return ''
 
     def DisplayResults(self) -> None:
@@ -134,7 +133,7 @@ class USA(QMainWindow, Ui_StrongestSoldier):
             self.buttonGroup.checkedButton().setChecked(False)
             self.buttonGroup.setExclusive(True)
 
-    def votecount(self) -> dict:
+    def votecount(self) -> dict[str, int]:
         """this vote count function sets up a library that stores the candidates and their votes
         it then goes through the Results.csv and goes through every line and checks for row[2] to who the
         candidate was, and if that candidate is in the votestallied library, it then adds 1 to the candidates total
@@ -152,10 +151,10 @@ class USA(QMainWindow, Ui_StrongestSoldier):
         """the namecheck function gets the users name from the U line edit
         it then strips it of whitespace and lowercases the name in case of case sensitive
         scenarios. it then goes through a first if statement which checks to make sure the name
-        wasn't left blank and returns None, then if the name wasn't left blank, and if a results csv file
+        wasn't left blank and returns '', then if the name wasn't left blank, and if a results csv file
         hasnt even been made then it accepts the name as well. but if the results csv file is there, it
         then goes row by row and checks the first position and if that row[0] is the same as our users name
-        then it returns none and tells the user that they've already voted. If the csv file has been made but the
+        then it returns '' and tells the user that they've already voted. If the csv file has been made but the
         name isn't in the csv file then it also returns the users name"""
         username = self.U.text().strip().lower()
         if username == '':
@@ -173,9 +172,9 @@ class USA(QMainWindow, Ui_StrongestSoldier):
 
     def Submit(self) -> None:
         """this pulls the users name and the candidate choice the user made when the vote button is clicked then
-        and if statement checks to see if we got None from the name check function, the program doesnt proceed
-        it then does the same to the candidate check, if we get a None from candidate then the program also stops
-        from proceeding further, then i made a file_exists variablet that checks if we have a results csv
+        and if statement checks to see if we got '' return from the name check function, the program doesnt proceed
+        it then does the same to the candidate check, if we get a blank '' return from candidate then the program also stops
+        from proceeding further, then i made a file_exists variable that checks if we have a results csv
         if it doesnt exist within our opening of the results.csv then it creates a new csv file called results.csv and makes
         and makes the header for it with the users name and the candidate. after everything is inputted, it then
         tells the user who they voted for and unselects the radio buttons, and clears the line edit
