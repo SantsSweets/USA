@@ -127,13 +127,13 @@ class USA(QMainWindow, Ui_StrongestSoldier):
         self.Jane.show()
         self.Agatha.show()
         self.U.clear()
-        self.text.clear()
+        self.Text.clear()
         if self.buttonGroup.checkedButton() is not None:
             self.buttonGroup.setExclusive(False)
             self.buttonGroup.checkedButton().setChecked(False)
             self.buttonGroup.setExclusive(True)
 
-    def votecount(self) -> dict[str, int]:
+    def votecount(self) -> dict:
         """this vote count function sets up a library that stores the candidates and their votes
         it then goes through the Results.csv and goes through every line and checks for row[2] to who the
         candidate was, and if that candidate is in the votestallied library, it then adds 1 to the candidates total
